@@ -3,7 +3,7 @@
 #include<iostream>
 #include<cstring>
 #include"model.h"
-#include"shader_program.h"
+#include"shader.h"
 #include"consts.h"
 
 using namespace std;
@@ -47,17 +47,29 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-
 void renderBackground()
 {
-	glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+	//Set clear color and clear screen
+	glClearColor(0.2f, 0.2f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void renderObject(StaticModel model, ShaderProgram shaderProgram)
+void renderObject(StaticModel &model, Shader &shader)
 {
-	shaderProgram.use(); //Give shading program
-	model.render(); //Give shading model data
+	float timeValue = glfwGetTime();
+	float sinValue = sin(timeValue);
+	float cosValue = cos(timeValue);
+
+	//Use given shader program
+	shader.use(); 
+
+	//Inject essential data to shader program
+	shader.setFloat("uni_time", timeValue);
+	shader.setFloat("uni_sin", sinValue);
+	shader.setFloat("uni_cos", cosValue);
+
+	//Draw target model
+	model.render(); 
 }
 
 int main()
@@ -66,23 +78,22 @@ int main()
 	if (glfwWindow == NULL)
 		return -1;
 
-	//Prepare model data and shading program
-	StaticModel staticModel;
-	staticModel.setVerticesData(vertices, verticesSize);
-	staticModel.setIndicesData(indices, indicesSize);
+	//Prepare model and shader
+	StaticModel model;
+	model.setVerticesData(vertices, verticesSize);
+	model.setIndicesData(indices, indicesSize);
 
-	ShaderProgram shaderProgram;
 	string rootPath = shaderSourcePath;
 	string vertexPath = rootPath + vertexShaderName;
 	string fragmentPath = rootPath + fragmentShaderName;
-	shaderProgram.createShaderProgramFromFile(vertexPath.c_str(), fragmentPath.c_str());
+	Shader shader(vertexPath.c_str(), fragmentPath.c_str());
 
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		processInput(glfwWindow);
 
 		renderBackground();
-		renderObject(staticModel, shaderProgram);
+		renderObject(model, shader);
 
 		glfwSwapBuffers(glfwWindow);
 		glfwPollEvents();

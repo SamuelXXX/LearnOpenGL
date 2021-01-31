@@ -2,22 +2,24 @@
 #include<glfw3.h>
 #include<iostream>
 #include"model.h"
+#include"consts.h"
 
 using namespace std;
 
-void StaticModel::_setCurrentContext()
+void StaticModel::setActive()
 {
-	if (!_initialized)
-	{
-		glGenVertexArrays(1, &_vao);
-		_initialized = true;
-	}
-	glBindVertexArray(_vao);
+	glBindVertexArray(ID);
 }
 
-void StaticModel::setVerticesData(const float vertices[], const unsigned int verticesSize)
+StaticModel::StaticModel()
 {
-	_setCurrentContext();
+	//Create a VAO id
+	glGenVertexArrays(1, &ID);
+}
+
+void StaticModel::setVerticesData(const vertex vertices[], const unsigned int verticesSize)
+{
+	setActive();
 	//Create VBO
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -28,13 +30,16 @@ void StaticModel::setVerticesData(const float vertices[], const unsigned int ver
 	//Set context content
 	glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)sizeof(position));
+	glEnableVertexAttribArray(1);
 }
 
 void StaticModel::setIndicesData(const unsigned int indices[], const unsigned int indicesSize)
 {
-	_setCurrentContext();
+	setActive();
 	unsigned int EBO;
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -44,6 +49,6 @@ void StaticModel::setIndicesData(const unsigned int indices[], const unsigned in
 
 void StaticModel::render()
 {
-	glBindVertexArray(_vao);
+	glBindVertexArray(ID);
 	glDrawElements(GL_TRIANGLES, _indicesCount, GL_UNSIGNED_INT, 0);
 }

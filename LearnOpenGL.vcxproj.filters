@@ -27,21 +27,21 @@
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\shader_program.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\consts.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\shader\vertex.shader">
+    <None Include="src\shader\shader.frag">
       <Filter>源文件\shaders</Filter>
     </None>
-    <None Include="src\shader\fragment.shader">
+    <None Include="src\shader\shader.vert">
       <Filter>源文件\shaders</Filter>
     </None>
   </ItemGroup>
@@ -49,10 +49,10 @@
     <ClInclude Include="src\include\model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\shader_program.h">
+    <ClInclude Include="src\include\consts.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\consts.h">
+    <ClInclude Include="src\include\shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

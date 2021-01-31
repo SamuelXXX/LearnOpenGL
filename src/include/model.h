@@ -1,16 +1,18 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#include"consts.h"
+
 class StaticModel
 {
 protected:
 	bool _initialized = false;
-	unsigned int _vao = 0;
+	unsigned int ID = 0;
 	unsigned int _indicesCount = 0;
-	void _setCurrentContext();
+	void setActive();
 public:
-	
-	void setVerticesData(const float vertices[], const unsigned int verticesSize);
+	StaticModel();
+	void setVerticesData(const vertex vertices[], const unsigned int verticesSize);
 	void setIndicesData(const unsigned int indices[], const unsigned int indicesSize);
 	void render();
 };

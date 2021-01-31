@@ -160,16 +160,16 @@
     <ClCompile Include="src\libs\glad.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\model.cpp" />
-    <ClCompile Include="src\shader_program.cpp" />
+    <ClCompile Include="src\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\shader\fragment.shader" />
-    <None Include="src\shader\vertex.shader" />
+    <None Include="src\shader\shader.frag" />
+    <None Include="src\shader\shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\consts.h" />
     <ClInclude Include="src\include\model.h" />
-    <ClInclude Include="src\include\shader_program.h" />
+    <ClInclude Include="src\include\shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,25 @@
 #ifndef _CONSTS_H_
 #define _CONSTS_H_
 
-extern float vertices[];
+struct position {
+	float x;
+	float y;
+	float z;
+};
+
+struct color {
+	float r;
+	float g;
+	float b;
+	float a;
+};
+
+struct vertex {
+	position pos;
+	color col;
+};
+
+extern vertex vertices[];
 extern unsigned int verticesSize;
 
 extern unsigned int indices[];
