@@ -1,6 +1,10 @@
 #include<glad/glad.h>
 #include<glfw3.h>
-#include <iostream>
+#include<iostream>
+#include<cstring>
+#include"model.h"
+#include"shader_program.h"
+#include"consts.h"
 
 using namespace std;
 
@@ -43,10 +47,17 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-void rendering()
+
+void renderBackground()
 {
 	glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void renderObject(StaticModel model, ShaderProgram shaderProgram)
+{
+	shaderProgram.use(); //Give shading program
+	model.render(); //Give shading model data
 }
 
 int main()
@@ -55,11 +66,23 @@ int main()
 	if (glfwWindow == NULL)
 		return -1;
 
+	//Prepare model data and shading program
+	StaticModel staticModel;
+	staticModel.setVerticesData(vertices, verticesSize);
+	staticModel.setIndicesData(indices, indicesSize);
+
+	ShaderProgram shaderProgram;
+	string rootPath = shaderSourcePath;
+	string vertexPath = rootPath + vertexShaderName;
+	string fragmentPath = rootPath + fragmentShaderName;
+	shaderProgram.createShaderProgramFromFile(vertexPath.c_str(), fragmentPath.c_str());
+
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		processInput(glfwWindow);
 
-		rendering();
+		renderBackground();
+		renderObject(staticModel, shaderProgram);
 
 		glfwSwapBuffers(glfwWindow);
 		glfwPollEvents();
